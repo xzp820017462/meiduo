@@ -25,7 +25,7 @@ SECRET_KEY = '2k2vs$)n7c--7oi0h&c!#=*#gy7xr51lq#llmwe2%1(8m1l4@@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'meiduo_mall.apps.users',
 ]
 
 MIDDLEWARE = [
@@ -67,7 +68,7 @@ TEMPLATES = [
 #    },
     {
         'BACKEND': 'django.template.backends.jinja2.Jinja2',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': [os.path.join(BASE_DIR,'meiduo_mall_templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,6 +80,19 @@ TEMPLATES = [
             'environment':'meiduo_mall.utils.jinja2_env.jinja2_enviroment'
         },
     },
+ {
+       'BACKEND': 'django.template.backends.django.DjangoTemplates',
+       'DIRS': [os.path.join(BASE_DIR,'meiduo_mall/templates')],
+       'APP_DIRS': True,
+       'OPTIONS': {
+           'context_processors': [
+               'django.template.context_processors.debug',
+               'django.template.context_processors.request',
+               'django.contrib.auth.context_processors.auth',
+               'django.contrib.messages.context_processors.messages',
+           ],
+       },
+   },
 ]
 
 WSGI_APPLICATION = 'meiduo_mall.wsgi.application'
@@ -97,22 +111,45 @@ DATABASES = {
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+# CACHES = {
+#     "default":{
+#         "BACKEND":"django_redis.cache.RedisCache",
+#         "LOCATION":"redis://127.0.0.1/0",
+#         "OPTIONS":{
+#             "CLIENT_CLASS":"django_redis.client.DefaultClient",
+#         }
+#     },
+#     "session": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://127.0.0.1/1",
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         }
+#     },
+#
+# }
 CACHES = {
-    "default":{
-        "BACKEND":"django_redis.cache.RedisCache",
-        "LOCATION":"redis://127.0.0.1/0",
-        "OPTIONS":{
-            "CLIENT_CLASS":"django_redis.client.DefaultClient",
-        }
-    },
-    "session": {
+    "default": { # 默认
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1/1",
+        "LOCATION": "redis://127.0.0.1:6379/0",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
-
+    "session": { # session
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
+    "code": { # session
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/2",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
 }
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "session"
@@ -239,3 +276,5 @@ LOGGING = {
         },
     }
 }
+# 指定自定义的用户模型类 语法==》 ‘子应用.用户模型类’
+AUTH_USER_MODEL = 'users.User'

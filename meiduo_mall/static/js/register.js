@@ -20,12 +20,13 @@ let vm = new Vue({
     },
     methods:{
         //check username
+        check_username(){
         let re = /^[a-zA-z0-9_-]{5,20}$/;
         if (re.test(this.username)){
             this.error_name = false;
         }else{
             this.error_name_message = '请输入5-20个字符的用户名';
-            s.error_name_message = true;
+            this.error_name_message = true;
               }
     },
     check_password(){
@@ -68,8 +69,8 @@ let vm = new Vue({
             // this.check_sms_code();
             this.check_allow();
 
-            if (this.error_name == true || this.error_password == true || this.error_check_password == true
-                || this.error_phone == true || this.error_sms_code == true || this.error_allow == true) {
+            if (this.error_name_message == true || this.error_password == true || this.error_password2 == true
+                || this.error_mobile == true ||  this.error_allow == true) {
                 // 不满足注册条件：禁用表单
                 window.event.returnValue = false;
             }

@@ -20,4 +20,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # url(r'^', include(('users.urls', "users"), namespace="register")),
     url(r'^', include('meiduo_mall.apps.users.urls')),
+    url(r'',include(('meiduo_mall.apps.contents.urls',"meiduo_mall.apps.contents"),namespace="contents")),
+
 ]

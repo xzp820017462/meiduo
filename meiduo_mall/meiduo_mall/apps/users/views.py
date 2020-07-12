@@ -8,13 +8,14 @@ from django.shortcuts import render,redirect
 from django.urls import reverse
 from django.views import View
 from django.db import DatabaseError
+from meiduo_mall.utils.response_code import RETCODE
 # Create your views here.
 
 class UsermeCountView(View):
     def get(self,request,username):
         """"""
         count = User.objects.filter(username=username).count()
-        return http.JsonResponse({'code':'','errmsg':'','count':count})
+        return http.JsonResponse({'code':RETCODE.ok,'errmsg':'OK','count':count})
 
 
 

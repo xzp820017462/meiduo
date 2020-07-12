@@ -1,24 +1,29 @@
-//eate vue duixiang
 let vm = new Vue({
-    el: "#app" //tong guo ID find HTML
+    el: "#app",
     data:{
-        // v-model
         username:"",
         password:"",
         password2:"",
         mobile:"",
         allow:"",
-        //v-show
-        error_name:false,//
+        image_code_url:'',
+        uuid:'',
+        error_name:false,
         error_password:false,
         error_password2:false,
         error_mobile:false,
         error_allow:false,
-        // err_message
         error_name_message:'',
         error_mobile_err_message:'',
     },
+    mounted(){
+        this.generate_image_code();
+    },
     methods:{
+        generate_image_code(){
+            this.uuid = this.generateUUID();
+            this.image_code_url='/image_codes/'+this.uuid+'/';
+        },
         //check username
         check_username(){
         let re = /^[a-zA-z0-9_-]{5,20}$/;
@@ -27,8 +32,26 @@ let vm = new Vue({
         }else{
             this.error_name_message = '请输入5-20个字符的用户名';
             this.error_name_message = true;
-              }
-    },
+              },
+        if (this.error_name == false){
+            let url = '/username/'+this.username+'/count/';
+            axios.get(url,{
+                responseType:'json';
+            })
+            .then(response =>{
+                if(response.data.get.count == 1){
+                    this.error_name_message ='username is create';
+                    this.error_name = true;
+                }else{
+                    this.error_name = false;
+                }
+            })
+            .catch(error => {
+                console.log(error.response);
+            })
+        }
+        },
+
     check_password(){
         let re = /^[0-9a-zA-Z]{8,20}$/;
         if (re.test(this.password)){
@@ -75,5 +98,5 @@ let vm = new Vue({
                 window.event.returnValue = false;
             }
         }
-
+}
 })

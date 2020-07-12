@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'meiduo_mall.apps.users',
+    'meiduo_mall.apps.verifications'
 ]
 
 MIDDLEWARE = [
@@ -143,7 +144,7 @@ CACHES = {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
-    "code": { # session
+    "verify_codes": { # session
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/2",
         "OPTIONS": {

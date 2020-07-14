@@ -3,9 +3,9 @@ from django.views import View
 from django_redis import get_redis_connection
 from meiduo_mall.libs.captcha.captcha import captcha
 from django import http
-from meiduo_mall.meiduo_mall.utils.response_code import RETCODE
+from meiduo_mall.utils.response_code import RETCODE
 import random
-from meiduo_mall.meiduo_mall.apps.verifications.yuntongxun.sms import CCP
+from meiduo_mall.apps.verifications.yuntongxun.sms import CCP
 
 # Create your views here.
 class ImageCodeView(View):

@@ -15,6 +15,8 @@ let vm = new Vue({
         error_allow:false,
         error_name_message:'',
         error_mobile_err_message:'',
+        sms_code_tip:'huoquyanzhengma',
+        image_code:'',
     },
     mounted(){
         this.generate_image_code();
@@ -24,6 +26,35 @@ let vm = new Vue({
             this.uuid = this.generateUUID();
             this.image_code_url='/image_codes/'+this.uuid+'/';
         },
+        send_sms_code(){
+            let url = 'sms_codes/'+this.mobile + '/?image_code=' +this.image_code +'&uuid=' +this.uuid;
+            axios.get(url,{
+                responseType:'json'
+                })
+                .then(response =>{
+                    if (response.data.code == '0'){
+                        let num = 60;
+                        let t = setInterval(()=>{
+                            if (num == 1){
+                                clearInterval(t);
+                                this.sms_code_tip = 'record sms code';
+                                this.generate_image_code();
+                            }else{
+                            num -= 1;
+                          this.sms_code_tip =num + 'seconds';
+                        },1000)
+
+                    }else{
+                        if (response.data.code=='4001'){
+                            this.error_image_code_message = response.data.errmsg;
+                            this.error_image_code = true;
+                        }
+                    }
+                })
+                .catch(error =>{
+                    console.log(error.response)
+                })
+        }
         //check username
         check_username(){
         let re = /^[a-zA-z0-9_-]{5,20}$/;

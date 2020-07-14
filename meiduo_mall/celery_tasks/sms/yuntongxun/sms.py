@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-from meiduo_mall.apps.verifications.yuntongxun.CCPRestSDK import REST
+from celery_tasks.sms.yuntongxun.CCPRestSDK import REST
 
 # from meiduo_mall.apps.verifications.yuntongxun.CCPRestSDK import REST
 
